@@ -32,6 +32,35 @@ def signUp
     end
 end
 
+def funcionalidades
+    loop do
+        puts  "************Menú***************** \n" + "    1. Generar QR \n" + "    2. Consultar historial \n"  + "    3. Cerrar sesión \n" + "******************************** \n"
+        puts "Ingresa el número de la opción"
+        option = gets.chomp.to_i
+
+        if option == 1
+
+            generarQR()
+
+        elsif option == 2
+
+            consultarHistorial()
+        
+        elsif option == 3
+
+            puts "Cerrando sesión..."
+        
+        else 
+
+            puts "Número digitado erroneo"
+        end
+
+    break if option == 3
+    end
+end
+
+
+
 
 begin
     loop do
