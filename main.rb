@@ -57,11 +57,11 @@ end
 def convert(qr)
         qr_code = qr.match(REGEXP) || [] #comparar el codigo base64 con la expresión regular de la variable constante REGEXP
         extension = MIME::Types[qr_code[1]].first.preferred_extension
-        file_name = "myfilename.#{extension}"
-        File.open(file_name, 'wb') do |file|
-            file.write(Base64.decode64(qr_code[2])) #crear un archivo tipo imagen y escribirle dentro la decodificación del base64
+        file_name = "codigo_qr.#{extension}"
+        File.open("./qr_generados/#{file_name}", 'wb') do |file|
+            file.write(Base64.decode64(qr_code[2]))#crear un archivo tipo imagen y escribirle dentro la decodificación del base64
         end
-end
+end 
 
 def consultarHistorial
     begin
@@ -72,7 +72,7 @@ def consultarHistorial
             puts "ID: #{key['id_code']} URL: #{key['url']} CODE_QR: #{key['url_code']}  \n*************************************************************************"  
         end
     rescue => e
-        puts e , 'URL incorrecta'
+        puts e , 'No hay historial'
     end
 end
 
