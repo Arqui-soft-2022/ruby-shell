@@ -1,5 +1,9 @@
 require 'rest-client'
 require 'json'
+require 'base64'
+
+#Es una expresión regular para ayudar en el método convert. Como es una variable constante no se puede definir dentro de métodos
+REGEXP = /\Adata:([-\w]+\/[-\w\+\.]+)?;base64,(.*)/m
 
 def logIn
     begin
@@ -51,7 +55,12 @@ def generarQR
 end
 
 def convert(qr)
-
+        qr_code = qr.match(REGEXP) || [] #comparar el codigo base64 con la expresión regular de la variable constante REGEXP
+        extension = MIME::Types[qr_code[1]].first.preferred_extension
+        file_name = "myfilename.#{extension}"
+        File.open(file_name, 'wb') do |file|
+            file.write(Base64.decode64(qr_code[2])) #crear un archivo tipo imagen y escribirle dentro la decodificación del base64
+        end
 end
 
 def funcionalidades
