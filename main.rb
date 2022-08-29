@@ -46,7 +46,7 @@ def generarQR
         u = gets.chomp
         response = RestClient.post "https://codeqr-generate.herokuapp.com/api/code/", {'url' => u , 'user' => $id_usuario }.to_json, {content_type: :json, accept: :json}
         temp = JSON.parse(response)
-        qr = temp['qr_code']['url_code'] #la peticion post me retorna un json con varios valores el cual solo interesa la llave url_code cuyo es un codigo base64  que se generó a partir de la url el cual hay que convertir a imagen
+        qr = temp['qr_code']['url_code'] #la peticion post me retorna un json con varios valores el cual solo interesa la llave url_code cuyo  valor es un codigo base64  que se generó a partir de la url el cual hay que convertir a imagen
         convert(qr)
     rescue => e
         puts e , 'URL incorrecta'
@@ -61,6 +61,19 @@ def convert(qr)
         File.open(file_name, 'wb') do |file|
             file.write(Base64.decode64(qr_code[2])) #crear un archivo tipo imagen y escribirle dentro la decodificación del base64
         end
+end
+
+def consultarHistorial
+    begin
+        puts "--Historial--"
+        response = RestClient.post "https://codeqr-generate.herokuapp.com/api/code/historial", {'user' => $id_usuario}.to_json, {content_type: :json, accept: :json}
+        temp = JSON.parse(response) #para convertirlo a hash ruby y poder manipularlo
+        temp['codes'].each do |key| #la peticion post me retorna un json con varios valores el cual interesa la llave codes que es un arreglo donde se encuentran todos los QR generados y se recorren todos los elementos donde se escogen solo los valores id, url y url_code que son los que interesa mostrarle al usuario
+            puts "ID: #{key['id_code']} URL: #{key['url']} CODE_QR: #{key['url_code']}  \n*************************************************************************"  
+        end
+    rescue => e
+        puts e , 'URL incorrecta'
+    end
 end
 
 def funcionalidades
@@ -92,6 +105,7 @@ end
 
 
 
+#****************************************** MAIN ********************************************************************************************************************************************************
 
 begin
     loop do
@@ -101,7 +115,7 @@ begin
 
         if options == 1
 
-            if logIn() 
+            if logIn()
                 puts "---Bienvenido---"
                 funcionalidades()
             else 
