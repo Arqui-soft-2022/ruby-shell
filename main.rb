@@ -8,6 +8,9 @@ def logIn
         puts "Digite su contraseña"
         pas = gets.chomp
         response = RestClient.post "https://codeqr-generate.herokuapp.com/api/auth/login", {'username' => us , 'password' => pas }.to_json, {content_type: :json, accept: :json}
+        temp = JSON.parse(response)
+        #variable global para guardar el id del usuario que inició sesión con el fin de usarlo por ej en generar codigo qr se necesita el id del usuario
+        $id_usuario = temp['usuario']['id_usuario']
         response.code == 200
     rescue => e
         puts e
@@ -30,6 +33,25 @@ def signUp
     rescue => e
         puts e
     end
+end
+
+def generarQR
+    begin
+        puts "--Generar código QR--"
+        puts "Digite la url"
+        u = gets.chomp
+        response = RestClient.post "https://codeqr-generate.herokuapp.com/api/code/", {'url' => u , 'user' => $id_usuario }.to_json, {content_type: :json, accept: :json}
+        temp = JSON.parse(response)
+        qr = temp['qr_code']['url_code'] #la peticion post me retorna un json con varios valores el cual solo interesa la llave url_code cuyo es un codigo base64  que se generó a partir de la url el cual hay que convertir a imagen
+        convert(qr)
+    rescue => e
+        puts e , 'URL incorrecta'
+    end
+
+end
+
+def convert(qr)
+
 end
 
 def funcionalidades
