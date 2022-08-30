@@ -1,6 +1,6 @@
-# frozen_string_literal: true
+source 'https://rubygems.org'
 
-source "https://rubygems.org"
-
-gem 'rest-client', '~> 2.1'
-
+gem 'colorize'
+gem 'terminal-table'
+gem 'faraday'
+gem 'tty-prompt'
