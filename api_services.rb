@@ -1,14 +1,15 @@
 require_relative 'environment.rb'
 
 def check_connection
-    response = Faraday.get 'https://codeqr-generate.herokuapp.com'
+    base_url_api = "https://codeqr-generate2.herokuapp.com"
+    response = Faraday.get base_url_api
     return response.status == 200 ? true : false
 end
 
 
 def register_user(username, password, email, name)
-    
-    url = "https://codeqr-generate.herokuapp.com/api/auth/register"
+    base_url_api = "https://codeqr-generate2.herokuapp.com"
+    url = base_url_api+"/api/auth/register"
 
     form_data = {
         "username": username,
@@ -23,8 +24,8 @@ def register_user(username, password, email, name)
 end # end registerUser
 
 def login_user(username, password)
-
-    url = "https://codeqr-generate.herokuapp.com/api/auth/login"
+    base_url_api = "https://codeqr-generate2.herokuapp.com"
+    url = base_url_api+"/api/auth/login"
 
     form_data = {
         "username": username,
@@ -38,8 +39,8 @@ def login_user(username, password)
 end # end loginUser 
 
 def generate_qr(web_url, user_id)
-
-    url = "https://codeqr-generate.herokuapp.com/api/code/"
+    base_url_api = "https://codeqr-generate2.herokuapp.com"
+    url = "#{base_url_api}/api/code/"
 
     form_data = {
         "url": web_url,
@@ -52,8 +53,8 @@ def generate_qr(web_url, user_id)
 end 
 
 def historical_qr(id_user)
-
-    url = 'https://codeqr-generate.herokuapp.com/api/code/historial'
+    base_url_api = "https://codeqr-generate2.herokuapp.com"
+    url = "#{base_url_api}/api/code/historial"
 
     form_data = {
         "user": id_user

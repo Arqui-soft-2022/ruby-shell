@@ -3,6 +3,12 @@ require_relative 'environment.rb'
 start   
 prompt = TTY::Prompt.new(symbols: {marker: ">"}, active_color: :cyan)
 
+def generateQr(directory_name, qr_base64)
+    File.open("#{directory_name}/qr.png", "wb") do |file|
+            file.write(Base64.decode64(qr_base64))
+        end
+end
+
 get_user = -1 
 while true 
 
@@ -91,9 +97,7 @@ while true
         Dir.mkdir(directory_name) unless File.exists?(directory_name)
 
         # create_qr(directory_name, qr_base64)
-        File.open("#{directory_name}/qr.png", "wb") do |file|
-            f.write(Base64.decode64(qr_base64))
-        end
+        generateQr(directory_name, qr_base64)
 
 
     when options == 4
@@ -117,15 +121,31 @@ while true
 
         rows = []
         response['codes'].each do |child|
-            rows << [child['id_code'], child['type'], child['url'][8..], child['url_code'][0..30]]
+            rows << [child['id_code'], child['type'], child['url'][8..40], child['url_code'][0..30]]
         end
-
-        #if !prompt.yes?("Desea exportar un qr?")
 
 
         historico = Terminal::Table.new :title => "HISTORIAL", :headings => ['ID' ,'Tipo', 'URL' ,'Qr Code'], :rows => rows
         historico.style = {:all_separators => true, border: :unicode, :width => 130, :alignment => :center}
         puts historico 
+
+        if prompt.yes?("Desea exportar un qr?")
+            
+            id_qr = prompt.ask("ID del qr:", required: true) do |q|
+                q.modify :strip, :down, :remove
+            end
+            response['codes'].each do |child|
+                if id_qr == child['id_code']
+                    qr_base64 = child['url_code']
+                    qr_base64 = qr_base64.split(",")[1]
+                    generateQr("icon", qr_base64)
+                end
+            end
+            
+            generateQr(directory_name, qr_base64)
+
+        end
+
     else
         break
     end
