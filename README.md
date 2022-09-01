@@ -27,8 +27,8 @@ Luego de añadir las dependencias que se necesiten al gemfile, ejecutamos el sig
 ```
 Y listo, ya podemos crear un archivo main.rb y hacer uso de las dependencias
 
-Ejecutar ruby main.rb para version1 
-Ejecutar ruby request_test.rb para version2
+- Ejecutar ```ruby main.rb ``` para version1 
+- Ejecutar ```ruby request_test.rb ``` para version2
 
 
 ## Autores ✒️
