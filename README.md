@@ -19,17 +19,20 @@ Configurando proyecto con Bundler: se crea archivo Gemfile en donde se van a añ
 ```bash
    bundle init
 ```
-Añadimos la gema Rest-Client (librería para consumir API) en el archivo Gemfile: gem 'rest-client', '~> 2.1'
+Añadimos la gemas listadas en el archivo Gemfile
 
 Luego de añadir las dependencias que se necesiten al gemfile, ejecutamos el siguiente comando para descargar las dependencias (se crea un archivo gemfile.lock):
 ```bash
    bundle install
 ```
-Y listo, ya podemos crear un archivo main.rb y hacer uso de las dependencias... 
+Y listo, ya podemos crear un archivo main.rb y hacer uso de las dependencias
+
+Ejecutar ruby main.rb para version1 
+Ejecutar ruby request_test.rb para version2
 
 
 ## Autores ✒️
 
 let team = ['Johan Pineda', 'Jhoser Pacheco'];
 
-**[Ingeniería de Sistemas]** de la **[Universidad Francisco de Paula Santander]** **[2022]
+**Ingeniería de Sistemas** de la **Universidad Francisco de Paula Santander** **[2022]
